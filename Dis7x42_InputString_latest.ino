@@ -120,10 +120,15 @@ int timedelay = 15;          // unused if poti enabled
 
 // allowed characters:   ! " # $ % & ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M
 //               N O P Q R S T U V W X Y Z [ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | }
+
 //char InputString[] = {"!#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}"};
 //char InputString[] = {"Sprich Deutsch du Hurensohn!"};
-char InputString[] = {"Social Distancing is key!    Stay at home!    Stay Healthy!    "};
-//char InputString[24f] = {"Abonniert Hand Of Blood!"};
+//char InputString[] = {"Social Distancing is key!    Stay at home!    Stay Healthy!    "};
+//char InputString[] = {"Abonniert Hand Of Blood!"};
+//char InputString[] = {"    This is a 7x42 LedDisplay made by 077        Abonniert Hand Of Blood!        Stay safe!        #FreeDeniz        #AFDP        Never Give Up!        #OccupyMars        oLaF = offenes Labor Fulda        Cyberpunk2077 will be great        3D-Printing for the win!        Google enteignen! Facebook verstaatlichen!        Memes are Art!"};
+char InputString[] = {"    This is a 7x42 LedDisplay made by 077        #FreeDeniz        #AFDP        #OccupyMars        oLaF = offenes Labor Fulda        "};
+
+
 const int Stringsize = sizeof(InputString) / sizeof(InputString[0]);
 //byte OLDledsMirror[NUM_STRIPS][Stringsize*6]; // [Y] * [X]           
 byte ledsMirror[Stringsize*6]; // Y ~ bit; X ~ [Byte] aka. ||||||||||||||||
@@ -135,6 +140,8 @@ int scrollcounter = 0;
 
 void writetomirror();
 void writetomirrorsub(int field, int B, int b);
+
+int color = 0; //needed for coloring
 
 void setup() {
   // tell FastLED there's 60 WS2812B leds on pin 5
@@ -930,12 +937,12 @@ void writetomirrorsub(int field, int B, int b) {
         
 }
 
-void makeLedsBackground(int ystripe, int xled) {
+void makeLedsBackground(int ystripe, int xled, int color) {
   leds[ystripe][xled].setRGB(0,0,0);
 }
 
-void makeLedsForeground(int ystripe, int xled) {
-  leds[ystripe][xled].setHue(150);
+void makeLedsForeground(int ystripe, int xled, int color) {
+  leds[ystripe][xled].setHue(color);
 }
 
 void mirrortoleds(int scrollcounter) { // Der text ist überkopft , weil 'ystripe' anders iteriert als 'b'
@@ -944,22 +951,22 @@ void mirrortoleds(int scrollcounter) { // Der text ist überkopft , weil 'ystrip
       
       if(scrollcounter + xled >= Stringsize*6) { // wenn scrollcounter(+offset) größer/gleich als nachricht(letzes zeichen ganz rechts, dann mache schwarz
         if(bitRead(ledsMirror[xled + scrollcounter - Stringsize*6], ystripe) == 0b0) {
-          makeLedsBackground(ystripe,xled);
+          makeLedsBackground(ystripe,xled,color);
         }    
       }
       
       else if(scrollcounter + xled < 0) { // wenn scrollcounter(+offset) kleiner als 0 ist, mache schwarz
         if(bitRead(ledsMirror[xled + scrollcounter - Stringsize*6], ystripe) == 0b0) {
-          makeLedsBackground(ystripe,xled);
+          makeLedsBackground(ystripe,xled,color);
         }        
       }
       
       else if(scrollcounter + xled >= 0 && scrollcounter + xled < Stringsize*6) {
         if(bitRead(ledsMirror[xled + scrollcounter], ystripe) == 0b0) {
-          makeLedsBackground(ystripe,xled);
+          makeLedsBackground(ystripe,xled,color);
         }
         if(bitRead(ledsMirror[xled + scrollcounter], ystripe) == 0b1) {
-          makeLedsForeground(ystripe,xled);
+          makeLedsForeground(ystripe,xled,color);
         }    
       }
               
@@ -995,6 +1002,12 @@ void loop() {
       scrollcounter = -NUM_LEDS_PER_STRIP; 
     }
   }
-
+  
+  if(color < 255) {
+    color++;
+  }
+  else {
+    color = 0;
+  }
   
 }
