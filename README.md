@@ -19,3 +19,10 @@ The main goal of this project was to make a Display using the WS2812B LED Strips
 - about 1000 lines of Arduino-Code(mostly C++)
 - the FastLED-Library as a Framework for the Arduino-LED Communication on Hardware-Level
 - mostly self-written Code to define digit & character layouts, organize scrolling, input, etc.
+
+### Further Development Ideas:
+- Playing Snake on the Dis7x42, or other games like Tetris
+- Text and Color Input via a ESP8266/ESP32
+- Keyboard Input
+- Live Weather Update
+- Display Status of the oLaF(e.g. open, closed, booting)
