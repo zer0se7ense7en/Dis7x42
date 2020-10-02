@@ -1,7 +1,7 @@
 # 7x42 LED-Display
 ## A nerdy way of displaying text
 
-The main goal of this project was to make a Display using the WS2812B LED Strips. The Project is hosted on GitHub. An Arduino controls the LED-Strips and displays a predefined string of chars. It is powered by a Step-Up, which is powered by the Power Supply, which also powers the LED-Strips.
+The main goal of this project was to make a Display using the WS2812B LED Strips. An Arduino controls the LED-Strips and displays a predefined string of chars. It is powered by a Step-Up(5V->~9V), which is powered by the Power Supply(5V), which also powers the LED-Strips(5V).
 
 ### Hardware:
 - Arduino Mega (Functions as a LED-Controller)
